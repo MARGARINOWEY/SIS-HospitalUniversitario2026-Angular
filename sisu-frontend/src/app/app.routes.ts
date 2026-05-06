@@ -15,7 +15,7 @@ export const routes: Routes = [
   // ==========================================
   {
     path: 'login',
-    loadComponent: () => import('./core/auth/login/login.component').then(m => m.LoginComponent),
+    loadComponent: () => import('./core/auth/login/login').then(m => m.Login),
     title: 'Ingreso al Sistema | SISU'
   },
 
@@ -30,7 +30,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'emergencia',
-        loadChildren: () => import('./features/emergencia/pacientes/pacientes').then(m => m.EMERGENCIA_ROUTES)
+        loadChildren: () => import('./features/emergencia/pacientes/pacientes').then(m => m.Pacientes)
       }
     ]
   },
