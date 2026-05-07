@@ -1,3 +1,114 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+  # Compresión de respuestas HTTP
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/plain
+  # Timeout de conexión
+  tomcat:
+    connection-timeout: 20000
+
 spring:
   application:
     name: sis-hospital-universitario-sisu-2026
+
+  # ==========================================
+  # CONFIGURACIÓN DE BASE DE DATOS (PostgreSQL)
+  # ==========================================
+  datasource:
+    url: jdbc:postgresql://190.129.216.210:5432/sisu_bd
+    username: postgres # Cambia por tu usuario de BD
+    password: usic2024 # Cambia por tu contraseña de BD
+    driver-class-name: org.postgresql.Driver
+    # Optimización del pool de conexiones (HikariCP viene por defecto en Spring Boot)
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+
+  # ==========================================
+  # CONFIGURACIÓN DE JPA / HIBERNATE
+  # ==========================================
+  jpa:
+    hibernate:
+      # IMPORTANTE: Cambiar a 'validate' cuando uses Flyway en producción
+      # Flyway gestiona el esquema; Hibernate solo debe validarlo
+      ddl-auto: validate
+    show-sql: true
+    open-in-view: false  # Evita el anti-patrón OSIV
+    properties:
+      hibernate:
+        "[format_sql]": true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          "[batch_size]": 20
+        "[order_inserts]": true
+        "[order_updates]": true
+
+  # ==========================================
+  # MIGRACIONES DE BASE DE DATOS (FLYWAY)
+  # ==========================================
+  flyway:
+    enabled: true
+    baseline-on-migrate: true # Permite aplicar Flyway a bases de datos que ya tienen tablas
+    locations: classpath:db/migration # Aquí debes colocar tus archivos V1__init.sql, etc.
+
+# ==========================================
+# CONFIGURACIÓN PERSONALIZADA PARA JWT
+# ==========================================
+# Se cambió de 'security.jwt' a 'app.security.jwt' para no interferir con las 
+# propiedades nativas de 'spring.security' de las librerías OAuth2 que tienes en el POM.
+app:
+  security:
+    jwt:
+      # Esta es una clave secreta generada en Base64. ¡En producción debe ser guardada en variables de entorno!
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      # Tiempo de expiración del token en milisegundos (Ejemplo: 86400000 = 1 día)
+      expiration-time: 86400000
+
+# ==========================================
+# SPRING BOOT ACTUATOR (Monitoreo y Salud)
+# ==========================================
+# Tienes la dependencia en el POM, pero faltaba exponer los endpoints.
+management:
+  endpoints:
+    web:
+      exposure:
+        # Exponer solo lo necesario (no 'env' ni 'heapdump' en producción)
+        include: health, info, metrics, flyway
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      roles: ADMIN
+  info:
+    env:
+      enabled: true
+
+# Información de la app (visible en /actuator/info)
+info:
+  app:
+    name: Sistema Hospital Universitario SISU
+    version: 0.0.1-SNAPSHOT
+    description: Sistema Integral de Salud Universitaria - UAP Bolivia
+    java-version: 21
+
+# ==========================================
+# CONFIGURACIÓN DE LOGS
+# ==========================================
+logging:
+  level:
+    root: INFO
+    "[uap.edu.bo.sisu]": DEBUG
+    "[org.springframework.security]": DEBUG   # Cambiar a INFO en producción
+    "[org.springframework.web]": INFO
+    "[org.hibernate.SQL]": DEBUG
+    "[org.hibernate.type.descriptor.sql]": TRACE
+    "[org.flywaydb]": INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/sisu-application.log
