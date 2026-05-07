@@ -1,1 +1,24 @@
-<p>login works!</p>
+<div class="login-wrapper">
+  <div class="login-box">
+    <header>
+      <h1>Hospital Universitario SISU</h1>
+      <p>Gestión de Información Hospitalaria</p>
+    </header>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="input-group">
+        <label>Usuario</label>
+        <input type="text" formControlName="username" placeholder="Ej. administrador">
+      </div>
+
+      <div class="input-group">
+        <label>Contraseña</label>
+        <input type="password" formControlName="password" placeholder="••••••••">
+      </div>
+
+      <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+      <button type="submit" [disabled]="loginForm.invalid">Acceder al Sistema</button>
+    </form>
+  </div>
+</div>
