@@ -18,10 +18,12 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    @Value("${security.jwt.secret-key}")
+    // ✅ Added "app." prefix to match application.yml
+    @Value("${app.security.jwt.secret-key}")
     private String secretKey;
 
-    @Value("${security.jwt.expiration-time}")
+    // ✅ Added "app." prefix to match application.yml
+    @Value("${app.security.jwt.expiration-time}")
     private long jwtExpiration;
 
     public String extractUsername(String token) {

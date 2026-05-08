@@ -31,8 +31,8 @@ public class Usuario extends AuditoriaConfig{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_usuario;
 
-    private String nombre_usuario;
-    private String contrasena_usuario;
+    private String nombreUsuario;
+    private String contrasenaUsuario;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "persona")

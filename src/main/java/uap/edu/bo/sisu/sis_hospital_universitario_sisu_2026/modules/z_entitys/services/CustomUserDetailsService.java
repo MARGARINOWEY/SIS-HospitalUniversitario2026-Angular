@@ -33,8 +33,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // 3. Devolvemos un objeto UserDetails que Spring Security entiende
         return new User(
-                usuario.getNombre_usuario(),
-                usuario.getContrasena_usuario(),
+                usuario.getNombreUsuario(),
+                usuario.getContrasenaUsuario(),
                 Collections.singletonList(new SimpleGrantedAuthority(nombreRol))
         );
     }
