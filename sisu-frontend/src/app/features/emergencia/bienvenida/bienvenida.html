@@ -1,0 +1,65 @@
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="p-5 mb-4 bg-primary text-white rounded-3 shadow position-relative overflow-hidden">
+        
+        <i class="bi bi-heart-pulse position-absolute end-0 top-50 translate-middle-y opacity-10" style="font-size: 15rem; margin-right: -2rem;"></i>
+
+        <div class="container-fluid py-2 position-relative z-index-1">
+          <h1 class="display-5 fw-bold">¡Bienvenido,!</h1>
+          
+          <div class="d-flex align-items-center mt-3 mb-2">
+            <p class="fs-4 mb-0 me-3">Sistema de Gestión de Información - Hospital Universitario SISU</p>
+            <span class="badge bg-light text-primary fs-6 py-2 px-3 shadow-sm">
+              <i class="bi bi-shield-lock-fill me-1"></i> Rol: {{ rolUsuario }}
+            </span>
+          </div>
+
+          <hr class="my-4 border-white opacity-25">
+          <p class="lead">Has ingresado con éxito al Módulo de Emergencia. Selecciona una de las acciones rápidas para comenzar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-people-fill text-primary fs-1"></i>
+          </div>
+          <h5 class="card-title fw-bold">Pacientes</h5>
+          <p class="card-text text-muted">Registro y seguimiento de pacientes en sala de espera y atención.</p>
+          <a routerLink="pacientes" class="btn btn-outline-primary w-100">Ver Listado</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-person-plus-fill text-success fs-1"></i>
+          </div>
+          <h5 class="card-title fw-bold">Admisión Rápida</h5>
+          <p class="card-text text-muted">Ingreso inmediato de pacientes por triaje de emergencia.</p>
+          <button class="btn btn-success w-100">Iniciar Registro</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-file-earmark-bar-graph text-warning fs-1"></i>
+          </div>
+          <h5 class="card-title fw-bold">Reportes</h5>
+          <p class="card-text text-muted">Consulta de estadísticas de atención y disponibilidad de camas.</p>
+          <button class="btn btn-outline-warning w-100">Generar Reporte</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

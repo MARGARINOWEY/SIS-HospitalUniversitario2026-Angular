@@ -6,6 +6,8 @@ export const routes: Routes = [
   // ==========================================
   {
     path: '',
+    redirectTo: 'login', // Redirige directamente a la vista de login
+    pathMatch: 'full'
     // Aquí cargaríamos un layout público (Header y Footer de la página web)
     // loadComponent: () => import('./core/layout/public-layout/public-layout.component').then(m => m.PublicLayoutComponent),
   },
@@ -24,13 +26,21 @@ export const routes: Routes = [
   // ==========================================
   {
     path: 'admin',
-    // Aquí cargaremos el Layout principal (Sidebar izquierdo, Navbar superior)
-    // loadComponent: () => import('./core/layout/admin-layout/admin-layout.component').then(m => m.AdminLayoutComponent),
-    // canActivate: [authGuard], // <-- Futuro Guard para proteger las rutas
+    // loadComponent: ... (tu AdminLayoutComponent)
     children: [
       {
         path: 'emergencia',
-        loadChildren: () => import('./features/emergencia/pacientes/pacientes').then(m => m.Pacientes)
+        children: [
+          {
+            path: '', // Al entrar a /admin/emergencia carga la bienvenida
+            loadComponent: () => import('./features/emergencia/bienvenida/bienvenida').then(m => m.Bienvenida),
+            title: 'Bienvenida | Emergencias SISU'
+          },
+          {
+            path: 'pacientes',
+            loadChildren: () => import('./features/emergencia/pacientes/pacientes').then(m => m.Pacientes)
+          }
+        ]
       }
     ]
   },

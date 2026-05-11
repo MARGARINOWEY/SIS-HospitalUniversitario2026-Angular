@@ -26,13 +26,31 @@ export class Login {
   onLogin() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
-        next: () => {
-          this.router.navigate(['/admin']);
+        next: (response) => {
+          // Obtenemos el rol (ej: 'ADMIN', 'EMERGENCIA', 'FARMACIA')
+          const role = this.authService.getUserRole(); 
+          this.redirectByRole(role);
         },
         error: () => {
-          this.errorMsg = 'Usuario o contraseña incorrectos.';
+          this.errorMsg = 'Credenciales no válidas.';
         }
       });
+    }
+  }
+
+  private redirectByRole(role: string) {
+    switch (role) {
+      case 'ADMIN':
+        this.router.navigate(['/admin/dashboard']);
+        break;
+      case 'EMERGENCIA':
+        this.router.navigate(['/admin/emergencia']);
+        break;
+      case 'FARMACIA':
+        this.router.navigate(['/admin/farmacia']);
+        break;
+      default:
+        this.router.navigate(['/']); // Ruta por defecto
     }
   }
 }

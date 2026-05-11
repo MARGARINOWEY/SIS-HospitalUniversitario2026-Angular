@@ -35,8 +35,20 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
+    // 🔥 MÉTODO MODIFICADO: Ahora extrae el rol y lo añade al JWT
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> extraClaims = new HashMap<>();
+        
+        // Obtenemos el primer rol/autoridad del usuario
+        String rol = userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(authority -> authority.getAuthority())
+                .orElse("UNKNOWN");
+                
+        // Guardamos el rol en los claims bajo la llave "rol"
+        extraClaims.put("rol", rol);
+        
+        return generateToken(extraClaims, userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {

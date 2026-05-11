@@ -1,24 +1,43 @@
-<div class="login-wrapper">
-  <div class="login-box">
-    <header>
-      <h1>Hospital Universitario SISU</h1>
-      <p>Gestión de Información Hospitalaria</p>
-    </header>
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
+    <div class="card-body text-center">
+      <h2 class="card-title text-primary fs-4 fw-bold mb-1">Hospital Universitario SISU</h2>
+      <p class="card-text text-muted mb-4 small">Gestión de Información Hospitalaria</p>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <div class="input-group">
-        <label>Usuario</label>
-        <input type="text" formControlName="username" placeholder="Ej. administrador">
-      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        
+        <div class="mb-3 text-start">
+          <label for="username" class="form-label fw-semibold text-secondary">Usuario</label>
+          <input 
+            type="text" 
+            id="username"
+            class="form-control" 
+            formControlName="username" 
+            placeholder="Ej. administrador">
+        </div>
 
-      <div class="input-group">
-        <label>Contraseña</label>
-        <input type="password" formControlName="password" placeholder="••••••••">
-      </div>
+        <div class="mb-4 text-start">
+          <label for="password" class="form-label fw-semibold text-secondary">Contraseña</label>
+          <input 
+            type="password" 
+            id="password"
+            class="form-control" 
+            formControlName="password" 
+            placeholder="••••••••">
+        </div>
 
-      <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+        <div class="alert alert-danger py-2 px-3 small text-start" role="alert" *ngIf="errorMsg">
+          {{ errorMsg }}
+        </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">Acceder al Sistema</button>
-    </form>
+        <button 
+          type="submit" 
+          class="btn btn-primary w-100 fw-bold" 
+          [disabled]="loginForm.invalid">
+          Acceder al Sistema
+        </button>
+        
+      </form>
+    </div>
   </div>
 </div>
