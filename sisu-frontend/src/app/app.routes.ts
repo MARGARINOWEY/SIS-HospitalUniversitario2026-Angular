@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   // ==========================================
@@ -6,14 +7,12 @@ export const routes: Routes = [
   // ==========================================
   {
     path: '',
-    redirectTo: 'login', // Redirige directamente a la vista de login
+    redirectTo: 'login', 
     pathMatch: 'full'
-    // Aquí cargaríamos un layout público (Header y Footer de la página web)
-    // loadComponent: () => import('./core/layout/public-layout/public-layout.component').then(m => m.PublicLayoutComponent),
   },
 
   // ==========================================
-  // RUTA DE LOGIN
+  // RUTA DE LOGIN (Sin Layout de Admin)
   // ==========================================
   {
     path: 'login',
@@ -26,13 +25,16 @@ export const routes: Routes = [
   // ==========================================
   {
     path: 'admin',
-    // loadComponent: ... (tu AdminLayoutComponent)
+    // 1. CARGAMOS EL LAYOUT PADRE
+    loadComponent: () => import('./core/layout/admin-layout/admin-layout').then(m => m.AdminLayout),
+    canActivate: [authGuard],
+    // 2. TODAS LAS RUTAS HIJAS SE RENDERIZAN DENTRO DEL <router-outlet> DEL ADMIN LAYOUT
     children: [
       {
         path: 'emergencia',
         children: [
           {
-            path: '', // Al entrar a /admin/emergencia carga la bienvenida
+            path: '',
             loadComponent: () => import('./features/emergencia/bienvenida/bienvenida').then(m => m.Bienvenida),
             title: 'Bienvenida | Emergencias SISU'
           },
@@ -41,6 +43,24 @@ export const routes: Routes = [
             loadChildren: () => import('./features/emergencia/pacientes/pacientes').then(m => m.Pacientes)
           }
         ]
+      },
+      // Puedes descomentar y agregar las demás rutas cuando las vayas creando:
+      // {
+      //   path: 'caja',
+      //   loadChildren: () => import('./features/caja/caja.routes').then(m => m.CAJA_ROUTES)
+      // },
+      // {
+      //   path: 'farmacia',
+      //   loadChildren: () => import('./features/farmacia/farmacia.routes').then(m => m.FARMACIA_ROUTES)
+      // },
+      // {
+      //   path: 'estudiantes',
+      //   loadChildren: () => import('./features/estudiantes/estudiantes.routes').then(m => m.ESTUDIANTES_ROUTES)
+      // },
+      {
+        path: '',
+        redirectTo: 'emergencia', // Redirige por defecto a emergencia (o a un dashboard) al entrar a /admin
+        pathMatch: 'full'
       }
     ]
   },
@@ -50,7 +70,7 @@ export const routes: Routes = [
   // ==========================================
   {
     path: '**',
-    redirectTo: '', // O redirigir a un componente de "Página no encontrada (404)"
+    redirectTo: '',
     pathMatch: 'full'
   }
 ];

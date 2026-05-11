@@ -1,0 +1,83 @@
+<div class="app-container">
+  <header class="header card_custom">
+    <div class="brand-wrapper">
+      <img class="brand-logo animate fade-in-left delay-1" src="logo-sisu.png" alt="Logo Hospital">
+      <div class="brand-text">
+        <h1 class="hospital-name animate fade-in-left delay-2">Hospital Universitario</h1>
+        <span class="university-name animate fade-in-left delay-3">UNIVERSIDAD AMAZÓNICA DE PANDO</span>
+      </div>
+    </div>
+
+    <button class="menu-btn" (click)="toggleSidebar()">
+      <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round">
+        <path d="M4 18L20 18"/>
+        <path d="M4 12L20 12"/>
+        <path d="M4 6L20 6"/>
+      </svg>
+    </button>
+  </header>
+
+  <aside class="sidebar card_right_custom" [class.active]="isSidebarOpen">
+    <nav class="sidebar-nav">
+        <ul>
+            
+        </ul>
+      <!-- <ul>
+        @if (user()?.menu; as menuItems) {
+          @for (item of menuItems; track item.label) {
+          <li class="nav-item animate zoom-in slow">
+              
+              @if (item.children && item.children.length > 0) {
+              <div class="menu-head card_custom" (click)="toggleSubmenu(item)" [class.open]="item.isOpen">
+                  <div class="menu-label">
+                  <span class="menu-icon">{{ item.icon }}</span>
+                  <span>{{ item.label }}</span>
+                  </div>
+                  <span class="arrow-icon" [class.rotated]="item.isOpen">▼</span>
+              </div>
+
+              <ul class="submenu" [class.expanded]="item.isOpen">
+                  @for (subItem of item.children; track subItem.label) {
+                  <li>
+                      <a [routerLink]="subItem.route" routerLinkActive="active-link" class="submenu-link">
+                      <span class="submenu-icon">{{ subItem.icon }}</span>
+                      {{ subItem.label }}
+                      </a>
+                  </li>
+                  }
+              </ul>
+              }
+
+              @else {
+              <a [routerLink]="item.route" routerLinkActive="active-link" class="menu-link card_custom">
+                  <div class="menu-label">
+                  <span class="menu-icon">{{ item.icon }}</span>
+                  <span>{{ item.label }}</span>
+                  </div>
+              </a>
+              }
+          </li>
+          }
+        }
+      </ul> -->
+
+      <div style="border-top: 2px dashed #ddd; padding-top: 10px; margin-top: 10px;">
+        <button class="custom-btn-3d red animate fade-in-left slow" (click)="logout()">
+          <span class="custom-btn-3d__surface">
+            Cerrar Sesión
+          </span>
+        </button>
+      </div>
+
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Universidad Amazónica de Pando - SISU</p>
+  </footer>
+
+</div>

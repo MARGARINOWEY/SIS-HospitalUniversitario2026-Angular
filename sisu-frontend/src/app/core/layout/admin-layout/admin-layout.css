@@ -1,0 +1,314 @@
+/* Variables Generales */
+:host {
+  display: block;
+  --header-height: 80px; /* Aumentamos un poco la altura para el logo */
+  --footer-height: 50px;
+  --sidebar-width: 260px;
+  
+  /* Colores extraídos de tu imagen */
+  --blue-title: #0056D2;     /* Azul fuerte */
+  --gray-subtitle: #555555;  /* Gris oscuro */
+  --header-bg: #f4f4f4;      /* Gris muy claro de fondo */
+}
+
+/* --- GRID LAYOUT --- */
+.app-container {
+  display: grid;
+  height: 100vh;
+  /* La estructura define: Header arriba, Sidebar y Main al medio, Footer abajo */
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: var(--header-height) 1fr var(--footer-height);
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  
+  /* IMPORTANTE: Evita que la ventana completa haga scroll */
+  overflow: hidden;
+}
+
+/* --- ESTILOS DEL HEADER (NUEVO) --- */
+.header {
+  grid-area: header;
+  background-color: var(--header-bg); /* Fondo gris claro */
+  display: flex;
+  justify-content: space-between; /* Separa Logo a la izq y Botón a la der */
+  align-items: center;
+  padding: 10px;
+  z-index: 10;
+}
+
+/* Contenedor del Logo + Texto */
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Espacio entre imagen y texto */
+}
+
+.brand-logo {
+  height: 60px; /* Ajusta esto según el tamaño real de tu logo */
+  width: auto;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.hospital-name {
+  color: var(--blue-title);
+  font-size: 1.4rem;
+  font-weight: 800; /* Extra bold */
+  margin: 0;
+}
+
+.university-name {
+  color: var(--gray-subtitle);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Botón Menú (Hamburguesa) */
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+
+  /* 1. Evita la selección de texto (fundamental para que no salga el buscador) */
+  -webkit-user-select: none; /* Safari / Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Estándar */
+
+  /* 2. Evita que aparezca el menú contextual al mantener presionado (iOS/Android) */
+  -webkit-touch-callout: none;
+
+  /* 3. Elimina el color de resaltado azul/gris al tocar en móviles */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu-btn:hover {
+  background-color: rgba(0,0,0,0.05);
+  border-radius: 5px;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  grid-area: sidebar;
+  background-color: #ffffff;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+  z-index: 5;
+
+  /* IMPORTANTE: Permite que el sidebar tenga su propio scroll */
+  overflow-y: auto; 
+  height: 100%;     /* Ocupa toda la altura de su celda (entre header y footer) */
+  box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.sidebar a:hover {
+  color: var(--blue-title);
+}
+
+/* --- MAIN & FOOTER --- */
+.main-content {
+  grid-area: main;
+  background-color: #cddee9;
+  padding: 10px;
+  
+  /* IMPORTANTE: El contenido principal también debe tener su propio scroll */
+  overflow-y: auto; 
+  height: 100%;
+}
+
+.footer {
+  grid-area: footer;
+  background-color: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  
+  /* Asegura que el footer esté siempre encima si hubiera superposición accidental, 
+     aunque con Grid no debería pasar */
+  z-index: 10;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+  }
+  .sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    /* Cambiar bottom: 0 por la altura del footer para no taparlo */
+    bottom: var(--footer-height); 
+    width: 250px;
+    transform: translateX(-100%);
+    overflow-y: auto; /* Asegura scroll también en móvil */
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .menu-btn {
+    display: block;
+  }
+}
+
+/* ... MANTENER TUS VARIABLES Y ESTILOS DE GRID EXISTENTES ... */
+
+.sidebar-nav {
+  padding-bottom: 120px;
+}
+
+/* --- SIDEBAR NAVIGATION --- */
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 5px;
+}
+
+/* Estilos compartidos para cabeceras y enlaces */
+.menu-head, .menu-link {
+  display: flex;
+  justify-content: space-between; /* Icono+Texto a la izq, Flecha a la der */
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  z-index: 20;
+}
+
+.menu-head:hover, .menu-link:hover {
+  background-color: #e6f0ff;
+  color: var(--blue-title);
+}
+
+.menu-label {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espacio entre icono y texto */
+
+  /* 1. Evita la selección de texto (fundamental para que no salga el buscador) */
+  -webkit-user-select: none; /* Safari / Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Estándar */
+
+  /* 2. Evita que aparezca el menú contextual al mantener presionado (iOS/Android) */
+  -webkit-touch-callout: none;
+
+  /* 3. Elimina el color de resaltado azul/gris al tocar en móviles */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+  width: 25px; /* Ancho fijo para alineación */
+  text-align: center;
+}
+
+/* --- SUBMENU STYLES --- */
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  max-height: 0; /* Oculto por defecto */
+  transition: max-height 0.3s ease-in-out; /* Animación suave */
+  border-radius: 15px;
+  z-index: 10;
+}
+
+.submenu.expanded {
+  max-height: 500px; /* Altura suficiente para mostrar contenido */
+}
+
+.submenu-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 10px 10px 45px; /* 45px padding-left para indentación */
+  text-decoration: none;
+  color: #555;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+
+  /* 1. Evita la selección de texto (fundamental para que no salga el buscador) */
+  -webkit-user-select: none; /* Safari / Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Estándar */
+
+  /* 2. Evita que aparezca el menú contextual al mantener presionado (iOS/Android) */
+  -webkit-touch-callout: none;
+
+  /* 3. Elimina el color de resaltado azul/gris al tocar en móviles */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.submenu-icon {
+  margin-right: 10px;
+  font-size: 0.8rem;
+}
+
+/* --- FLECHA DE ROTACIÓN --- */
+.arrow-icon {
+  font-size: 0.7rem;
+  color: #888;
+  transition: transform 0.3s ease;
+}
+
+.arrow-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* Enlace activo (cuando estás en esa ruta) */
+.active-link {
+  /* background-color: var(--blue-title) !important; */
+  color: #0056D2 !important;
+}
+
+.active-link .menu-icon, 
+.active-link .submenu-icon {
+  /* color: white; si usaras iconos SVG con fill */
+}
